@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Impress Hotel · รายการโอนเงินเดือน 21 มีนาคม – 20 เมษายน 2569</title>
+<style>
+  :root {
+    --navy:#1B3A6B; --navy2:#2E4F8A; --gold:#B8960C; --gold-lt:#FFF8E1;
+    --green:#1B5E20; --green-lt:#E8F5E9; --green-md:#2E7D32;
+    --red:#B71C1C; --red-lt:#FFEBEE;
+    --gray:#6B7280; --gray-lt:#F3F4F6; --white:#FFFFFF;
+    --border:#D1D5DB; --text:#1A1A2E;
+    --shadow:0 2px 8px rgba(0,0,0,0.10); --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sarabun','Noto Sans Thai',Arial,sans-serif;background:#EEF2F7;color:var(--text);padding-bottom:32px}
+
+  .header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:white;padding:20px 16px 16px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(27,58,107,0.3)}
+  .header-logo{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px}
+  .header-title{font-size:17px;font-weight:700;color:white;margin-bottom:2px}
+  .header-period{font-size:12px;color:rgba(255,255,255,0.75)}
+
+  .summary-strip{background:var(--gold-lt);border-bottom:2px solid var(--gold);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .summary-item{text-align:center;flex:1}
+  .summary-label{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px}
+  .summary-value{font-size:18px;font-weight:800;color:var(--navy);line-height:1.2}
+  .summary-unit{font-size:11px;color:var(--gray)}
+  .summary-divider{width:1px;height:36px;background:var(--gold);opacity:0.4}
+
+  .section-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);padding:16px 16px 8px}
+
+  .emp-list{padding:0 12px;display:flex;flex-direction:column;gap:10px}
+  .emp-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border)}
+  .emp-main{display:grid;grid-template-columns:28px 1fr auto;align-items:start;gap:10px;padding:14px 14px 12px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+  .emp-main:active{background:var(--gray-lt)}
+  .emp-no{width:28px;height:28px;border-radius:50%;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+  .emp-info{min-width:0}
+  .emp-name{font-size:15px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .emp-nick{display:inline-block;font-size:11px;background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 6px;margin-top:3px;font-weight:600}
+  .emp-amount-block{text-align:right;flex-shrink:0}
+  .emp-amount{font-size:19px;font-weight:800;color:var(--green-md);line-height:1.1}
+  .emp-amount-label{font-size:10px;color:var(--gray)}
+  .emp-chevron{font-size:10px;color:var(--gray);margin-top:4px;transition:transform 0.2s}
+  .emp-card.open .emp-chevron{transform:rotate(180deg)}
+
+  .emp-bank-row{display:flex;align-items:center;gap:6px;padding:0 14px 12px 52px;flex-wrap:wrap}
+  .bank-badge{background:var(--gray-lt);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:12px;font-weight:600;color:var(--navy)}
+  .acct-badge{font-size:12px;color:var(--gray);font-family:'Courier New',monospace;letter-spacing:0.5px}
+
+  .emp-detail{display:none;border-top:1px solid var(--border);background:#FAFBFC}
+  .emp-card.open .emp-detail{display:block}
+  .detail-row{display:flex;gap:8px;padding:10px 14px}
+  .detail-row+.detail-row{border-top:1px dashed var(--border)}
+  .detail-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:1px}
+  .icon-income{background:var(--green-lt)} .icon-deduct{background:var(--red-lt)}
+  .detail-content{flex:1;min-width:0}
+  .detail-label{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:5px}
+  .label-income{color:var(--green)} .label-deduct{color:var(--red)}
+  .detail-items{display:flex;flex-direction:column;gap:3px}
+  .detail-item{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .item-name{color:var(--text)}
+  .item-val{font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+  .item-val.minus{color:var(--red)}
+  .detail-total{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);font-weight:700;font-size:13px}
+  .total-income{color:var(--green)} .total-deduct{color:var(--red)}
+
+  .bank-summary{margin:0 12px;background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border)}
+  .bank-summary-header{background:var(--navy);color:white;padding:11px 14px;font-size:12px;font-weight:700;letter-spacing:0.5px}
+  .bank-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border)}
+  .bank-row:last-child{border-bottom:none}
+  .bank-row.total-row{background:var(--gold-lt);font-weight:700;font-size:14px;border-top:2px solid var(--gold)}
+  .bank-name{color:var(--text)}
+  .bank-count{font-size:11px;color:var(--gray);text-align:center;min-width:40px}
+  .bank-amount{font-weight:700;color:var(--navy);text-align:right;font-variant-numeric:tabular-nums;min-width:80px}
+
+  .footer{margin:20px 12px 0;background:white;border-radius:var(--radius);border:1px solid var(--border);padding:16px 14px}
+  .sig-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center}
+  .sig-line{height:1px;background:var(--border);margin:32px 4px 6px}
+  .sig-role{font-size:11px;color:var(--gray);font-weight:600}
+  .footer-note{margin-top:14px;text-align:center;font-size:10px;color:var(--gray);letter-spacing:0.3px}
+
+  @media(max-width:360px){
+    .emp-name{font-size:13px} .emp-amount{font-size:16px}
+    .sig-grid{grid-template-columns:1fr;gap:16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">🏨 Impress Hotel Huai Khwang</div>
+  <div class="header-title">รายการโอนเงินเดือน</div>
+  <div class="header-period">งวด : 21 มีนาคม – 20 เมษายน 2569</div>
+</div>
+
+<div class="summary-strip">
+  <div class="summary-item">
+    <div class="summary-label">พนักงาน</div>
+    <div class="summary-value">16</div>
+    <div class="summary-unit">คน</div>
+  </div>
+  <div class="summary-divider"></div>
+  <div class="summary-item">
+    <div class="summary-label">ยอดโอนรวม</div>
+    <div class="summary-value">281,819</div>
+    <div class="summary-unit">บาท</div>
+  </div>
+  <div class="summary-divider"></div>
+  <div class="summary-item">
+    <div class="summary-label">ธนาคาร</div>
+    <div class="summary-value">0</div>
+    <div class="summary-unit">แห่ง</div>
+  </div>
+</div>
+
+<div class="section-title">รายการพนักงาน · กดเพื่อดูรายละเอียด</div>
+<div class="emp-list" id="empList"></div>
+
+<div class="section-title">สรุปยอดโอนแยกตามธนาคาร</div>
+<div class="bank-summary">
+  <div class="bank-summary-header">🏦 Bank Transfer Summary</div>
+  
+  <div class="bank-row total-row">
+    <span class="bank-name">รวมทั้งหมด</span>
+    <span class="bank-count">16 บัญชี</span>
+    <span class="bank-amount">281,819 ฿</span>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="sig-grid">
+    <div class="sig-item"><div class="sig-line"></div><div class="sig-role">ผู้จัดทำ<br>Hotel Manager</div></div>
+    <div class="sig-item"><div class="sig-line"></div><div class="sig-role">ผู้ตรวจสอบ / อนุมัติ<br>MD / ประธาน</div></div>
+    <div class="sig-item"><div class="sig-line"></div><div class="sig-role">วันที่อนุมัติ<br>___ / ___ / 2569</div></div>
+  </div>
+  <div class="footer-note">Impress Hotel Huai Khwang · งวด 21 มีนาคม – 20 เมษายน 2569 · ห้ามแก้ไขโดยไม่ได้รับอนุญาต</div>
+</div>
+
+<script>
+const employees = [
+  {
+    "no": 1,
+    "name": "สุเมธ พรรัชโพธิ์",
+    "nick": "อั้ม",
+    "bank": "SCB",
+    "acct": "571-295539-7",
+    "amount": 50125,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 50000,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 52000,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 875
+      },
+      {
+        "label": "เงินประกัน",
+        "val": 1000
+      }
+    ],
+    "totalDeduct": 1875
+  },
+  {
+    "no": 2,
+    "name": "สมคิด สายหล้า",
+    "nick": "อ้วน",
+    "bank": "SCB",
+    "acct": "102-2-65821-7",
+    "amount": 14692,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13650,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 15650,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 683
+      },
+      {
+        "label": "ยูนิฟอร์ม",
+        "val": 275
+      }
+    ],
+    "totalDeduct": 958
+  },
+  {
+    "no": 3,
+    "name": "สรัลชนา คำมุงคุล",
+    "nick": "มาย",
+    "bank": "ธนาคาร กสิกร",
+    "acct": "043-1-47939-7",
+    "amount": 18077,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 15750,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 4000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 19750,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 788
+      },
+      {
+        "label": "กยศ.",
+        "val": 885
+      }
+    ],
+    "totalDeduct": 1673
+  },
+  {
+    "no": 4,
+    "name": "ณัฐวุฒิ บุญคำ",
+    "nick": "โชค",
+    "bank": "ธนาคาร กสิกร",
+    "acct": "039-1-84931-5",
+    "amount": 18505,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 15750,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 4000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 19750,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 788
+      },
+      {
+        "label": "ยูนิฟอร์ม",
+        "val": 457
+      }
+    ],
+    "totalDeduct": 1245
+  },
+  {
+    "no": 5,
+    "name": "กชกร มีอุตส่าห์",
+    "nick": "กาน",
+    "bank": "ธนาคาร กรุงไทย",
+    "acct": "034-0-16987-7",
+    "amount": 19390,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 16800,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 4000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 20800,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 840
+      },
+      {
+        "label": "อื่นๆ",
+        "val": 570
+      }
+    ],
+    "totalDeduct": 1410
+  },
+  {
+    "no": 6,
+    "name": "เปรมหทัย ต้นวงศ์",
+    "nick": "ดิว",
+    "bank": "ธนาคาร กสิกร",
+    "acct": "153-1-63529-5",
+    "amount": 18962,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 15750,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 4000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 19750,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 788
+      }
+    ],
+    "totalDeduct": 788
+  },
+  {
+    "no": 7,
+    "name": "ธีระศักดิ์ ประสพผล",
+    "nick": "โอม",
+    "bank": "ธนาคาร กรุงไทย",
+    "acct": "409-3-44993-7",
+    "amount": 18392,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 15750,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 4000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 19750,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 788
+      },
+      {
+        "label": "อื่นๆ",
+        "val": 570
+      }
+    ],
+    "totalDeduct": 1358
+  },
+  {
+    "no": 8,
+    "name": "วรธิดา ธุระพันธ์",
+    "nick": "โซดา",
+    "bank": "ธนาคาร กสิกร",
+    "acct": "196-3-50371-3",
+    "amount": 18250,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 15000,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 4000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 19000,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 750
+      }
+    ],
+    "totalDeduct": 750
+  },
+  {
+    "no": 9,
+    "name": "ณวดา ศรีสวัสดิ์",
+    "nick": "หนูดี",
+    "bank": "SCB",
+    "acct": "231-2-23033-5",
+    "amount": 7125,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 15000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 7500,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 375
+      }
+    ],
+    "totalDeduct": 375
+  },
+  {
+    "no": 10,
+    "name": "จิรา นาพนัง",
+    "nick": "หญิง",
+    "bank": "TTB",
+    "acct": "914-2-03240-9",
+    "amount": 14967,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13650,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 15650,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 683
+      }
+    ],
+    "totalDeduct": 683
+  },
+  {
+    "no": 11,
+    "name": "สอบารียะ สะนิ",
+    "nick": "ย๊ะ",
+    "bank": "TTB",
+    "acct": "683-2-02552-9",
+    "amount": 13467,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13650,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 15650,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 683
+      },
+      {
+        "label": "อื่นๆ",
+        "val": 1500
+      }
+    ],
+    "totalDeduct": 2183
+  },
+  {
+    "no": 12,
+    "name": "สุนิสา เชิดชูงาม",
+    "nick": "จิ๊บ",
+    "bank": "ธนาคาร กสิกร",
+    "acct": "115-8-31875-6",
+    "amount": 12967,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13650,
+        "minus": false
+      }
+    ],
+    "totalIncome": 13650,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 683
+      }
+    ],
+    "totalDeduct": 683
+  },
+  {
+    "no": 13,
+    "name": "นวลละมัย โพนธาตุ",
+    "nick": "ไก่",
+    "bank": "ธนาคาร กรุงเทพ",
+    "acct": "473-4-43468-3",
+    "amount": 14350,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13000,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 15000,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 650
+      }
+    ],
+    "totalDeduct": 650
+  },
+  {
+    "no": 14,
+    "name": "วิลัยวรรณ ศรีอินทร์จันทร์",
+    "nick": "หวาน",
+    "bank": "ธนาคาร กรุงเทพ",
+    "acct": "596-7-10102-2",
+    "amount": 13850,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13000,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 15000,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 650
+      },
+      {
+        "label": "อื่นๆ",
+        "val": 500
+      }
+    ],
+    "totalDeduct": 1150
+  },
+  {
+    "no": 15,
+    "name": "จุฑามาศ เอียดแก้ว",
+    "nick": "อาย",
+    "bank": "ธนาคารกสิกรไทย",
+    "acct": "119-1-27651-1",
+    "amount": 14350,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13000,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 15000,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 650
+      }
+    ],
+    "totalDeduct": 650
+  },
+  {
+    "no": 16,
+    "name": "สุจิตรา บุญคำ",
+    "nick": "ตั้ก",
+    "bank": "SCB",
+    "acct": "432-209093-9",
+    "amount": 14350,
+    "income": [
+      {
+        "label": "เงินเดือนฐาน",
+        "val": 13000,
+        "minus": false
+      },
+      {
+        "label": "Incentive",
+        "val": 2000,
+        "minus": false
+      }
+    ],
+    "totalIncome": 15000,
+    "deduct": [
+      {
+        "label": "SSO",
+        "val": 650
+      }
+    ],
+    "totalDeduct": 650
+  }
+];
+
+function fmt(n){ return Math.abs(n).toLocaleString('th-TH'); }
+
+function renderCards() {
+  const list = document.getElementById('empList');
+  list.innerHTML = employees.map(emp => `
+    <div class="emp-card" id="card-${emp.no}">
+      <div class="emp-main" onclick="toggle(${emp.no})">
+        <div class="emp-no">${emp.no}</div>
+        <div class="emp-info">
+          <div class="emp-name">${emp.name}</div>
+          <div class="emp-nick">${emp.nick}</div>
+        </div>
+        <div class="emp-amount-block">
+          <div class="emp-amount">${emp.amount.toLocaleString('th-TH')}</div>
+          <div class="emp-amount-label">฿ สุทธิ</div>
+          <div class="emp-chevron">▼</div>
+        </div>
+      </div>
+      <div class="emp-bank-row">
+        <span class="bank-badge">${emp.bank}</span>
+        <span class="acct-badge">${emp.acct}</span>
+      </div>
+      <div class="emp-detail">
+        <div class="detail-row">
+          <div class="detail-icon icon-income">💚</div>
+          <div class="detail-content">
+            <div class="detail-label label-income">รายรับ · Earnings</div>
+            <div class="detail-items">
+              ${emp.income.map(i => `
+                <div class="detail-item">
+                  <span class="item-name">${i.label}</span>
+                  <span class="item-val${i.minus?' minus':''}">${i.minus?'−':'+'}${fmt(i.val)} ฿</span>
+                </div>`).join('')}
+            </div>
+            <div class="detail-total">
+              <span class="total-income">รวมรายรับ</span>
+              <span class="total-income">${emp.totalIncome.toLocaleString('th-TH')} ฿</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon icon-deduct">❤️</div>
+          <div class="detail-content">
+            <div class="detail-label label-deduct">รายหัก · Deductions</div>
+            <div class="detail-items">
+              ${emp.deduct.map(d => `
+                <div class="detail-item">
+                  <span class="item-name">${d.label}</span>
+                  <span class="item-val minus">−${fmt(d.val)} ฿</span>
+                </div>`).join('')}
+            </div>
+            <div class="detail-total">
+              <span class="total-deduct">รวมหัก</span>
+              <span class="total-deduct">−${emp.totalDeduct.toLocaleString('th-TH')} ฿</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggle(no) {
+  document.getElementById('card-' + no).classList.toggle('open');
+}
+
+renderCards();
+</script>
+</body>
+</html>
